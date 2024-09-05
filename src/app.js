@@ -5,13 +5,14 @@ const cors = require('cors');
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
 
-console.log('DATABASE_URL:', process.env.DATABASE_URL);  // <-- Verifica si DATABASE_URL está cargado
-console.log('JWT_SECRET:', process.env.JWT_SECRET);  // <-- Verifica si JWT_SECRET está cargado
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 const { connectDB, sequelize } = require('./models');  // Importar la función de conexión y sequelize
 const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');  // <-- Nueva ruta para el perfil del usuario
-const authenticateToken = require('./middlewares/auth');  // <-- Middleware de autenticación
+const userRoutes = require('./routes/userRoutes');
+const tradeRoutes = require('./routes/tradeRoutes');  // <-- Importar las rutas de trading
+const authenticateToken = require('./middlewares/auth');  // Middleware de autenticación
 
 const app = express();
 app.use(express.json());
@@ -36,7 +37,10 @@ if (process.env.DATABASE_URL) {
 app.use('/api/auth', authRoutes);
 
 // Conectar las rutas del perfil de usuario
-app.use('/api/user', userRoutes);  // <-- Nueva ruta para gestionar el perfil
+app.use('/api/user', userRoutes);
+
+// Conectar las rutas de operaciones de trading
+app.use('/api', tradeRoutes);  // <-- Nueva ruta de trading
 
 // Rutas protegidas
 app.get('/api/private', authenticateToken, (req, res) => {
