@@ -10,6 +10,7 @@ console.log('JWT_SECRET:', process.env.JWT_SECRET);  // <-- Verifica si JWT_SECR
 
 const { connectDB, sequelize } = require('./models');  // Importar la función de conexión y sequelize
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');  // <-- Nueva ruta para el perfil del usuario
 const authenticateToken = require('./middlewares/auth');  // <-- Middleware de autenticación
 
 const app = express();
@@ -33,6 +34,9 @@ if (process.env.DATABASE_URL) {
 
 // Conectar las rutas de autenticación
 app.use('/api/auth', authRoutes);
+
+// Conectar las rutas del perfil de usuario
+app.use('/api/user', userRoutes);  // <-- Nueva ruta para gestionar el perfil
 
 // Rutas protegidas
 app.get('/api/private', authenticateToken, (req, res) => {
