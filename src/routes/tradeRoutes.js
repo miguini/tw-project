@@ -1,5 +1,5 @@
 const express = require('express');
-const { createTrade, getTrades, updateTrade, deleteTrade } = require('../controllers/tradeController');
+const { createTrade, getTrades, updateTrade, deleteTrade, getClosedTrades, getOpenTrades } = require('../controllers/tradeController');
 const authenticateToken = require('../middlewares/auth');
 const router = express.Router();
 
@@ -14,5 +14,11 @@ router.put('/trades/:id', authenticateToken, updateTrade);
 
 // Ruta para eliminar una operación
 router.delete('/trades/:id', authenticateToken, deleteTrade);
+
+// Ruta para obtener solo las operaciones cerradas
+router.get('/trades/closed', authenticateToken, getClosedTrades);
+
+// Ruta para obtener solo las operaciones abiertas
+router.get('/trades/open', authenticateToken, getOpenTrades);
 
 module.exports = router;

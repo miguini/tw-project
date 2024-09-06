@@ -50,4 +50,64 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfile, updateUserProfile };
+// Función para obtener el balance del usuario autenticado
+const getUserBalance = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        res.status(200).json({ balance: user.balance });
+    } catch (error) {
+        console.error('Error al obtener el balance del usuario:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
+// Función para realizar un depósito
+const deposit = async (req, res) => {
+    const { amount } = req.body;
+
+    try {
+        const user = await User.findByPk(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Aumentar el balance
+        user.balance = (parseFloat(user.balance) || 0) + parseFloat(amount);
+        await user.save();
+
+        res.status(200).json({ message: 'Depósito realizado con éxito', newBalance: user.balance });
+    } catch (error) {
+        console.error('Error al realizar el depósito:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
+// Función para realizar un retiro
+const withdraw = async (req, res) => {
+    const { amount } = req.body;
+
+    try {
+        const user = await User.findByPk(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        if (parseFloat(user.balance) < parseFloat(amount)) {
+            return res.status(400).json({ message: 'Fondos insuficientes' });
+        }
+
+        // Disminuir el balance
+        user.balance = parseFloat(user.balance) - parseFloat(amount);
+        await user.save();
+
+        res.status(200).json({ message: 'Retiro realizado con éxito', newBalance: user.balance });
+    } catch (error) {
+        console.error('Error al realizar el retiro:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
+module.exports = { getUserProfile, updateUserProfile, getUserBalance, deposit, withdraw };

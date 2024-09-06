@@ -5,14 +5,14 @@ const cors = require('cors');
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
 
-console.log('DATABASE_URL:', process.env.DATABASE_URL);
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
+console.log('DATABASE_URL:', process.env.DATABASE_URL);  // <-- Verifica si DATABASE_URL está cargado
+console.log('JWT_SECRET:', process.env.JWT_SECRET);  // <-- Verifica si JWT_SECRET está cargado
 
 const { connectDB, sequelize } = require('./models');  // Importar la función de conexión y sequelize
 const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-const tradeRoutes = require('./routes/tradeRoutes');  // <-- Importar las rutas de trading
-const authenticateToken = require('./middlewares/auth');  // Middleware de autenticación
+const userRoutes = require('./routes/userRoutes');  // <-- Nueva ruta para el perfil del usuario
+const tradeRoutes = require('./routes/tradeRoutes');  // <-- Nueva ruta para las operaciones
+const authenticateToken = require('./middlewares/auth');  // <-- Middleware de autenticación
 
 const app = express();
 app.use(express.json());
@@ -21,6 +21,7 @@ app.use(cors());
 // Conectar la base de datos y sincronizar los modelos solo si DATABASE_URL está definido
 if (process.env.DATABASE_URL) {
     connectDB().then(() => {
+        // Eliminar el force: true para evitar la eliminación de datos
         sequelize.sync().then(() => {
             console.log('Modelos sincronizados con la base de datos.');
         }).catch((err) => {
@@ -40,7 +41,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 
 // Conectar las rutas de operaciones de trading
-app.use('/api', tradeRoutes);  // <-- Nueva ruta de trading
+app.use('/api', tradeRoutes);
 
 // Rutas protegidas
 app.get('/api/private', authenticateToken, (req, res) => {

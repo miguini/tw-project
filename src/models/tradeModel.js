@@ -1,38 +1,40 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('./index');
-const User = require('./userModel');
 
-const Trade = sequelize.define('Trade', {
+let Trade;
+
+if (sequelize) {
+  Trade = sequelize.define('Trade', {
     type: {
-        type: DataTypes.ENUM('buy', 'sell'),
-        allowNull: false,
+      type: DataTypes.ENUM('buy', 'sell'),
+      allowNull: false,
     },
     asset: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     quantity: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
     },
     entryPrice: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
+      type: DataTypes.DECIMAL(10, 4),
+      allowNull: false,
+    },
+    exitPrice: {
+      type: DataTypes.DECIMAL(10, 4),  // Esto debería estar presente
+      allowNull: true,  // Puede estar vacío hasta que se cierre la operación
     },
     status: {
-        type: DataTypes.ENUM('open', 'closed'),
-        defaultValue: 'open',
+      type: DataTypes.ENUM('open', 'closed'),
+      allowNull: false,
+      defaultValue: 'open',
     },
     userId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: User,
-            key: 'id',
-        }
+      type: DataTypes.INTEGER,
+      allowNull: false,
     }
-});
+  });
+}
 
-User.hasMany(Trade, { foreignKey: 'userId' });
-Trade.belongsTo(User, { foreignKey: 'userId' });
-
-module.exports = Trade;
+module.exports = Trade || {};
