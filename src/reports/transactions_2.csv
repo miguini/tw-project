@@ -1,0 +1,10 @@
+ID,Tipo,Cantidad,Fecha de Creación
+1,deposit,100.00,Fri Sep 06 2024 10:53:52 GMT-0300 (hora estándar de Uruguay)
+2,deposit,100.00,Fri Sep 06 2024 11:18:43 GMT-0300 (hora estándar de Uruguay)
+3,deposit,50.00,Fri Sep 06 2024 11:18:51 GMT-0300 (hora estándar de Uruguay)
+4,withdraw,150.00,Fri Sep 06 2024 11:19:13 GMT-0300 (hora estándar de Uruguay)
+5,withdraw,100.00,Fri Sep 06 2024 11:20:15 GMT-0300 (hora estándar de Uruguay)
+6,deposit,70.00,Fri Sep 06 2024 11:20:33 GMT-0300 (hora estándar de Uruguay)
+7,withdraw,70.00,Fri Sep 06 2024 11:20:47 GMT-0300 (hora estándar de Uruguay)
+8,deposit,70.00,Fri Sep 06 2024 11:20:55 GMT-0300 (hora estándar de Uruguay)
+9,withdraw,50.00,Fri Sep 06 2024 11:21:05 GMT-0300 (hora estándar de Uruguay)

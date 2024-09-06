@@ -128,5 +128,37 @@ const getOpenTrades = async (req, res) => {
     }
 };
 
-module.exports = { createTrade, getTrades, updateTrade, deleteTrade, getClosedTrades, getOpenTrades };
+// Obtener el historial completo de todas las operaciones del usuario
+const getTradeHistory = async (req, res) => {
+    try {
+        // Obtener todas las operaciones del usuario autenticado
+        const trades = await Trade.findAll({ where: { userId: req.user.id } });
 
+        // Añadir detalles adicionales a cada operación
+        const detailedTrades = trades.map(trade => {
+            const tradeDuration = trade.status === 'closed' ? (new Date(trade.updatedAt) - new Date(trade.createdAt)) : null;
+            return {
+                id: trade.id,
+                type: trade.type,
+                asset: trade.asset,
+                quantity: trade.quantity,
+                entryPrice: trade.entryPrice,
+                exitPrice: trade.exitPrice,
+                status: trade.status,
+                createdAt: trade.createdAt,
+                updatedAt: trade.updatedAt,
+                tradeDuration: tradeDuration ? `${Math.floor(tradeDuration / (1000 * 60 * 60))} hours` : 'Still open',
+                userId: trade.userId,
+                profitOrLoss: trade.status === 'closed' ? calculateProfitOrLoss(trade) : null
+            };
+        });
+
+        res.status(200).json(detailedTrades);
+    } catch (error) {
+        console.error('Error al obtener el historial de operaciones:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
+
+module.exports = { createTrade, getTrades, getOpenTrades, getClosedTrades, getTradeHistory, updateTrade, deleteTrade };

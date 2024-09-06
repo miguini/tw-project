@@ -1,6 +1,9 @@
 const User = require('../models/userModel');
 const Transaction = require('../models/transactionModel');
+const Trade = require('../models/tradeModel');  // <-- Asegúrate de importar Trade para las operaciones abiertas
 const bcrypt = require('bcryptjs');
+const { createObjectCsvWriter } = require('csv-writer');
+const path = require('path');
 
 // Muestra el perfil del usuario autenticado
 const getUserProfile = async (req, res) => {
@@ -57,6 +60,90 @@ const getUserBalance = async (req, res) => {
         res.status(500).json({ message: 'Error en el servidor' });
     }
 };
+
+// Obtener el balance detallado del usuario (incluyendo ganancias o pérdidas no realizadas)
+const getUserBalanceDetailed = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Obtener las operaciones abiertas para calcular ganancias/pérdidas no realizadas
+        const openTrades = await Trade.findAll({ where: { userId: req.user.id, status: 'open' } });
+
+        let unrealizedProfitOrLoss = 0;
+        openTrades.forEach(trade => {
+            unrealizedProfitOrLoss += calculateProfitOrLoss(trade);
+        });
+
+        // Redondear a 2 decimales
+        unrealizedProfitOrLoss = parseFloat(unrealizedProfitOrLoss.toFixed(2));
+        const totalBalance = parseFloat(user.balance) + unrealizedProfitOrLoss;
+
+        res.status(200).json({
+            balance: parseFloat(user.balance).toFixed(2),
+            unrealizedProfitOrLoss,
+            totalBalance: totalBalance.toFixed(2)
+        });
+    } catch (error) {
+        console.error('Error al obtener el balance detallado:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
+// Función para calcular la ganancia o pérdida de una operación
+const calculateProfitOrLoss = (trade) => {
+    const currentPrice = 1.25;  // Precio actual para el cálculo
+    const priceDifference = currentPrice - parseFloat(trade.entryPrice);
+
+    if (trade.type === 'buy') {
+        return priceDifference * parseFloat(trade.quantity);
+    } else if (trade.type === 'sell') {
+        return -priceDifference * parseFloat(trade.quantity);
+    }
+    return 0;
+};
+
+// Generar y descargar el reporte de transacciones en formato CSV
+const downloadTransactionReport = async (req, res) => {
+    try {
+        const transactions = await Transaction.findAll({ where: { userId: req.user.id } });
+
+        if (transactions.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron transacciones para este usuario.' });
+        }
+
+        // Definir la ubicación del archivo CSV
+        const csvFilePath = path.join(__dirname, '..', 'reports', `transactions_${req.user.id}.csv`);
+
+        // Configurar el escritor de CSV
+        const csvWriter = createObjectCsvWriter({
+            path: csvFilePath,
+            header: [
+                { id: 'id', title: 'ID' },
+                { id: 'type', title: 'Tipo' },
+                { id: 'amount', title: 'Cantidad' },
+                { id: 'createdAt', title: 'Fecha de Creación' }
+            ]
+        });
+
+        // Escribir los datos al archivo CSV
+        await csvWriter.writeRecords(transactions);
+
+        // Enviar el archivo CSV al cliente
+        res.download(csvFilePath, `transactions_${req.user.id}.csv`, (err) => {
+            if (err) {
+                console.error('Error al enviar el archivo:', err);
+                res.status(500).json({ message: 'Error al generar el reporte.' });
+            }
+        });
+    } catch (error) {
+        console.error('Error al generar el reporte de transacciones:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
 
 // Realizar un depósito
 const deposit = async (req, res) => {
@@ -130,4 +217,4 @@ const getTransactionHistory = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfile, updateUserProfile, getUserBalance, deposit, withdraw, getTransactionHistory };
+module.exports = { getUserProfile, updateUserProfile, getUserBalance, getUserBalanceDetailed, deposit, withdraw, getTransactionHistory, downloadTransactionReport };

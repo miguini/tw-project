@@ -8,22 +8,19 @@ dotenv.config();
 console.log('DATABASE_URL:', process.env.DATABASE_URL);  // <-- Verifica si DATABASE_URL está cargado
 console.log('JWT_SECRET:', process.env.JWT_SECRET);  // <-- Verifica si JWT_SECRET está cargado
 
-const { connectDB, sequelize } = require('./models');  // Importar la función de conexión y sequelize
+const { connectDB, sequelize } = require('./models');
 const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');  // <-- Nueva ruta para el perfil del usuario
-const tradeRoutes = require('./routes/tradeRoutes');  // <-- Nueva ruta para las operaciones
-const transactionRoutes = require('./routes/transactionRoutes');
-const authenticateToken = require('./middlewares/auth');  // <-- Middleware de autenticación
+const userRoutes = require('./routes/userRoutes');  // <-- Ruta para el perfil del usuario y transacciones
+const tradeRoutes = require('./routes/tradeRoutes');  // <-- Ruta para las operaciones
+const authenticateToken = require('./middlewares/auth');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Conectar la base de datos y sincronizar los modelos solo si DATABASE_URL está definido
 if (process.env.DATABASE_URL) {
     connectDB().then(() => {
-        // Eliminar el force: true para evitar la eliminación de datos
-        sequelize.sync().then(() => {
+        sequelize.sync({ alter: true }).then(() => {
             console.log('Modelos sincronizados con la base de datos.');
         }).catch((err) => {
             console.error('Error sincronizando los modelos con la base de datos:', err);
@@ -38,14 +35,11 @@ if (process.env.DATABASE_URL) {
 // Conectar las rutas de autenticación
 app.use('/api/auth', authRoutes);
 
-// Conectar las rutas del perfil de usuario
+// Conectar las rutas del perfil de usuario y transacciones
 app.use('/api/user', userRoutes);
 
 // Conectar las rutas de operaciones de trading
 app.use('/api', tradeRoutes);
-
-//Conectar la ruta de transacciones
-app.use('/api', transactionRoutes);
 
 // Rutas protegidas
 app.get('/api/private', authenticateToken, (req, res) => {
