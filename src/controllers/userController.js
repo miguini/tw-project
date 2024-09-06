@@ -1,18 +1,16 @@
 const User = require('../models/userModel');
+const Transaction = require('../models/transactionModel');
 const bcrypt = require('bcryptjs');
 
 // Muestra el perfil del usuario autenticado
 const getUserProfile = async (req, res) => {
     try {
-        // Obtenemos el usuario por su ID (del token JWT)
         const user = await User.findByPk(req.user.id);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // No enviamos la contraseña en la respuesta
         const { id, name, email } = user;
-
         res.status(200).json({ id, name, email });
     } catch (error) {
         console.error('Error al obtener el perfil:', error);
@@ -30,19 +28,14 @@ const updateUserProfile = async (req, res) => {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Actualizar el nombre y el email si se proporcionan
         if (name) user.name = name;
         if (email) user.email = email;
-
-        // Si el usuario quiere cambiar la contraseña, la hasheamos nuevamente
         if (password) {
             const hashedPassword = await bcrypt.hash(password, 10);
             user.password = hashedPassword;
         }
 
-        // Guardamos los cambios
         await user.save();
-
         res.status(200).json({ message: 'Perfil actualizado correctamente', user: { id: user.id, name: user.name, email: user.email } });
     } catch (error) {
         console.error('Error al actualizar el perfil:', error);
@@ -50,13 +43,14 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-// Función para obtener el balance del usuario autenticado
+// Obtener el balance del usuario autenticado
 const getUserBalance = async (req, res) => {
     try {
         const user = await User.findByPk(req.user.id);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
+
         res.status(200).json({ balance: user.balance });
     } catch (error) {
         console.error('Error al obtener el balance del usuario:', error);
@@ -64,50 +58,76 @@ const getUserBalance = async (req, res) => {
     }
 };
 
-// Función para realizar un depósito
+// Realizar un depósito
 const deposit = async (req, res) => {
     const { amount } = req.body;
+    const userId = req.user.id;
 
     try {
-        const user = await User.findByPk(req.user.id);
+        const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        // Aumentar el balance
-        user.balance = (parseFloat(user.balance) || 0) + parseFloat(amount);
+        user.balance = parseFloat(user.balance) + parseFloat(amount);
         await user.save();
 
-        res.status(200).json({ message: 'Depósito realizado con éxito', newBalance: user.balance });
+        await Transaction.create({
+            type: 'deposit',
+            amount,
+            userId: user.id
+        });
+
+        res.status(200).json({ message: 'Depósito realizado correctamente', newBalance: user.balance });
     } catch (error) {
         console.error('Error al realizar el depósito:', error);
         res.status(500).json({ message: 'Error en el servidor' });
     }
 };
 
-// Función para realizar un retiro
+// Realizar un retiro
 const withdraw = async (req, res) => {
     const { amount } = req.body;
+    const userId = req.user.id;
 
     try {
-        const user = await User.findByPk(req.user.id);
+        const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        if (parseFloat(user.balance) < parseFloat(amount)) {
+        const balance = parseFloat(user.balance);
+        const withdrawAmount = parseFloat(amount);
+
+        if (withdrawAmount > balance) {
             return res.status(400).json({ message: 'Fondos insuficientes' });
         }
 
-        // Disminuir el balance
-        user.balance = parseFloat(user.balance) - parseFloat(amount);
+        user.balance = balance - withdrawAmount;
         await user.save();
 
-        res.status(200).json({ message: 'Retiro realizado con éxito', newBalance: user.balance });
+        await Transaction.create({
+            type: 'withdraw',
+            amount: withdrawAmount,
+            userId: user.id
+        });
+
+        res.status(200).json({ message: 'Retiro realizado correctamente', newBalance: user.balance });
     } catch (error) {
         console.error('Error al realizar el retiro:', error);
         res.status(500).json({ message: 'Error en el servidor' });
     }
 };
 
-module.exports = { getUserProfile, updateUserProfile, getUserBalance, deposit, withdraw };
+// Obtener el historial de transacciones
+const getTransactionHistory = async (req, res) => {
+    try {
+        const transactions = await Transaction.findAll({ where: { userId: req.user.id } });
+        res.status(200).json(transactions);
+    } catch (error) {
+        console.error('Error al obtener el historial de transacciones:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
+module.exports = { getUserProfile, updateUserProfile, getUserBalance, deposit, withdraw, getTransactionHistory };

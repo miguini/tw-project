@@ -1,6 +1,6 @@
 const express = require('express');
-const { getUserProfile, updateUserProfile, getUserBalance, deposit, withdraw } = require('../controllers/userController');
-const authenticateToken = require('../middlewares/auth');  // Middleware para proteger la ruta
+const { getUserProfile, updateUserProfile, getUserBalance, deposit, withdraw, getTransactionHistory } = require('../controllers/userController');
+const authenticateToken = require('../middlewares/auth');
 const router = express.Router();
 
 // Ruta protegida para obtener el perfil del usuario
@@ -12,10 +12,11 @@ router.put('/profile', authenticateToken, updateUserProfile);
 // Ruta protegida para obtener el balance del usuario
 router.get('/balance', authenticateToken, getUserBalance);
 
-// Ruta para realizar un depósito
+// Rutas para depósito y retiro
 router.post('/deposit', authenticateToken, deposit);
-
-// Ruta para realizar un retiro
 router.post('/withdraw', authenticateToken, withdraw);
+
+// Ruta protegida para obtener el historial de transacciones
+router.get('/transactions', authenticateToken, getTransactionHistory);
 
 module.exports = router;
