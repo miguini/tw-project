@@ -21,7 +21,12 @@ if (sequelize) {
     balance: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
-      defaultValue: 0.00, // Balance inicial del usuario
+      defaultValue: 0.00,
+    },
+    alertPercentage: {
+      type: DataTypes.DECIMAL(5, 2),
+      allowNull: false,
+      defaultValue: 10.00,  // 10% por defecto para el umbral de alerta
     }
   });
 }

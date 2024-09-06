@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUserProfile, updateUserProfile, getUserBalance, deposit, withdraw, getTransactionHistory, getUserBalanceDetailed, downloadTransactionReport } = require('../controllers/userController');
+const { getUserProfile, updateUserProfile, deposit, withdraw, getTransactionHistory, getUserBalanceDetailed, downloadTransactionReport } = require('../controllers/userController');
 const authenticateToken = require('../middlewares/auth');
 const router = express.Router();
 
@@ -9,10 +9,7 @@ router.get('/profile', authenticateToken, getUserProfile);
 // Ruta protegida para actualizar el perfil del usuario
 router.put('/profile', authenticateToken, updateUserProfile);
 
-// Ruta protegida para obtener el balance del usuario
-router.get('/balance', authenticateToken, getUserBalance);
-
-// Nueva ruta protegida para obtener el balance detallado del usuario
+// Nueva ruta protegida para obtener el balance detallado del usuario (con alerta de umbral)
 router.get('/balance-detailed', authenticateToken, getUserBalanceDetailed);
 
 // Rutas para depósito y retiro
@@ -24,7 +21,7 @@ router.get('/transactions', authenticateToken, getTransactionHistory);
 
 // Ruta para descargar el historial de transacciones en formato CSV
 router.get('/transactions/report', authenticateToken, (req, res, next) => {
-    console.log('Ruta alcanzada: /transactions/report');  // Añadimos este log
+    console.log('Ruta alcanzada: /transactions/report');
     next();
 }, downloadTransactionReport);
 
