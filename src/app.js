@@ -12,6 +12,7 @@ const { connectDB, sequelize } = require('./models');  // Importar la función d
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');  // <-- Nueva ruta para el perfil del usuario
 const tradeRoutes = require('./routes/tradeRoutes');  // <-- Nueva ruta para las operaciones
+const transactionRoutes = require('./routes/transactionRoutes');
 const authenticateToken = require('./middlewares/auth');  // <-- Middleware de autenticación
 
 const app = express();
@@ -42,6 +43,9 @@ app.use('/api/user', userRoutes);
 
 // Conectar las rutas de operaciones de trading
 app.use('/api', tradeRoutes);
+
+//Conectar la ruta de transacciones
+app.use('/api', transactionRoutes);
 
 // Rutas protegidas
 app.get('/api/private', authenticateToken, (req, res) => {
