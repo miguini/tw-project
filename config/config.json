@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "marketswiss_user",
+    "password": "password123",
+    "database": "marketswiss",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "marketswiss_user",
+    "password": "password123",
+    "database": "marketswiss_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "marketswiss_user",
+    "password": "password123",
+    "database": "marketswiss_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
