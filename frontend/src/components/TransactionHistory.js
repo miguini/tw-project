@@ -6,7 +6,7 @@ const TransactionHistory = () => {
   const [balance, setBalance] = useState(0); // Añadir estado para el balance
   const [error, setError] = useState('');
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNzI1ODQ0NTY5LCJleHAiOjE3MjU4NDgxNjl9.zRiLzfQjwHnD1Xwv_IM9lUHMQBlBJRcTEtQRyVBeNf0'; // Reemplaza con tu token válido
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzI1OTA5MDA4LCJleHAiOjE3MjU5MTI2MDh9.pKeMQ_84n0IzTRTrzaTfUPnrRG__S-zBDPf6CUb62Gk'; // Reemplaza con tu token válido
 
   useEffect(() => {
     // Función para obtener las transacciones
