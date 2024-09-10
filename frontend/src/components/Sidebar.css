@@ -1,0 +1,52 @@
+/* Sidebar.css */
+
+/* Sidebar fijo a la izquierda */
+.sidebar {
+    width: 250px;
+    height: calc(100vh - 60px); /* Ajuste la altura total con un mayor margen inferior */
+    position: fixed;
+    top: 80px; /* Justo debajo del header */
+    left: 20px; /* Añadimos un margen pequeño a la izquierda */
+    background-color: #1e293b; /* Fondo oscuro */
+    padding-top: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Bordes redondeados */
+    margin-bottom: 40px; /* Margen inferior aumentado */
+  }
+  
+  /* Título en el Sidebar */
+  .sidebar h2 {
+    color: #e2e8f0; /* Color gris claro */
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Menú del Sidebar */
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    display: block;
+    border-radius: 8px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #2d3748; /* Color más claro al pasar el cursor */
+  }
+  

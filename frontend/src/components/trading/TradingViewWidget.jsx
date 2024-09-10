@@ -105,9 +105,10 @@ function TradingViewWidget() {
       </div>
 
       {/* Contenedor del widget */}
-      <div className="tradingview-widget-container" ref={container} style={{ height: '500px', width: '100%' }}>
-        <div className="tradingview-widget-container__widget" style={{ height: 'calc(100% - 32px)', width: '100%' }}></div>
-      </div>
+      <div className="tradingview-widget-container" ref={container} style={{ height: '600px', width: '100%' }}>
+  <div className="tradingview-widget-container__widget" style={{ height: 'calc(100% - 32px)', width: '100%' }}></div>
+</div>
+
     </div>
   );
 }
