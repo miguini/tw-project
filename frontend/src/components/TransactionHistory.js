@@ -3,18 +3,14 @@ import axios from 'axios';
 
 const TransactionHistory = () => {
   const [transactions, setTransactions] = useState([]);
-  const [balance, setBalance] = useState(0); // Añadir estado para el balance
+  const [balance, setBalance] = useState(0);
   const [error, setError] = useState('');
-
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzI1OTA5MDA4LCJleHAiOjE3MjU5MTI2MDh9.pKeMQ_84n0IzTRTrzaTfUPnrRG__S-zBDPf6CUb62Gk'; // Reemplaza con tu token válido
 
   useEffect(() => {
     // Función para obtener las transacciones
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/transactions', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get('http://localhost:5000/api/user/transactions');
         setTransactions(response.data);
       } catch (error) {
         setError('Error al obtener las transacciones');
@@ -24,9 +20,7 @@ const TransactionHistory = () => {
     // Función para obtener el balance
     const fetchBalance = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/user/balance-detailed', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get('http://localhost:5000/api/user/balance-detailed');
         setBalance(response.data.balance); // Guardar el balance
       } catch (error) {
         setError('Error al obtener el balance');
