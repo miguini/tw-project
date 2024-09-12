@@ -1,5 +1,5 @@
 /*
-Template Name: Veltrix - Admin & Dashboard Template
+Template Name: MS- Admin & Dashboard Template
 Author: Themesbrand
 Version: 4.2.0
 Website: https://themesbrand.com/
@@ -239,6 +239,35 @@ function logout() {
         }
     }
 
+    function obtenerOperaciones() {
+        const token = localStorage.getItem('token'); // Asegúrate de que el token se almacene correctamente
+    
+        fetch('http://localhost:5000/api/operations', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('operationsCount').textContent = data.operations;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    
+    
+    // Llama a la función cuando se cargue el DOM
+    document.addEventListener('DOMContentLoaded', obtenerOperaciones);
+    
     
     function actualizarGraficoConRendimiento(data) {
         const chartElement = document.querySelector('#chart-with-area');
@@ -280,7 +309,6 @@ function logout() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Datos de rendimiento:', data);
     
             // Invertir los datos antes de mostrarlos en el gráfico
             data.meses.reverse();
@@ -299,7 +327,7 @@ function logout() {
                 data: {
                     labels: data.meses,
                     datasets: [{
-                        label: 'Rendimiento',
+                        label: 'Performance',
                         data: data.rendimiento,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -322,7 +350,7 @@ function logout() {
     
     
     document.addEventListener('DOMContentLoaded', obtenerRendimiento);
-    
+    document.addEventListener('DOMContentLoaded', obtenerOperaciones);
     
     
     
@@ -342,6 +370,7 @@ function logout() {
         initPreloader();
         Waves.init();
         obtenerRendimiento();
+        obtenerOperaciones();
     }
 
     init();

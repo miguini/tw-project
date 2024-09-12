@@ -55,7 +55,7 @@
                         
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
-                                <div class="card mini-stat bg-primary text-white">
+                                <div class="card mini-stat bg-primary text-white" style="background-color: #28a745;">
                                     <div class="card-body">
                                         <div class="mb-4">
                                             <div class="float-start mini-stat-img me-4">
@@ -63,20 +63,26 @@
                                             </div>
                                             <h5 class="font-size-16 text-uppercase text-white-50">Balance</h5>
 <h4 class="fw-medium font-size-24" id="balanceCard">$0.00</h4>
-                                            <div class="mini-stat-label bg-success">
-                                                <p class="mb-0">+ 12%</p>
-                                            </div>
+                                            <!--<div class="mini-stat-label bg-success">
+                                               Se comenta esta linea debido que podria llegar a utilizar en un futuro, esto son unas etiquetas en las State Cards que se puede agregar como %
+                                                
+                                              <p class="mb-0">+ 12%</p> 
+                                              
+                                              
+                                            </div> --> 
                                         </div>
                                         <div class="pt-2">
                                             <div class="float-end">
                                                 <a href="#" class="text-white-50"><i class="mdi mdi-arrow-right h5"></i></a>
                                             </div>
 
-                                            <p class="text-white-50 mb-0 mt-1">Since last month</p>
+                                            <p class="text-white-50 mb-0 mt-1">Actual en la cuenta</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            
                             <div class="col-xl-3 col-md-6">
                                 <div class="card mini-stat bg-primary text-white">
                                     <div class="card-body">
@@ -84,23 +90,23 @@
                                             <div class="float-start mini-stat-img me-4">
                                                 <img src="assets/images/services-icon/02.png" alt="">
                                             </div>
-                                            <h5 class="font-size-16 text-uppercase text-white-50">Revenue</h5>
-                                            <h4 class="fw-medium font-size-24">52,368 <i
-                                                    class="mdi mdi-arrow-down text-danger ms-2"></i></h4>
-                                            <div class="mini-stat-label bg-danger">
-                                                <p class="mb-0">- 28%</p>
-                                            </div>
+                                            <h5 class="font-size-16 text-uppercase text-white-50">Operaciones</h5>
+                                            <h4 class="fw-medium font-size-24" id="operationsCount">0</h4>
                                         </div>
                                         <div class="pt-2">
                                             <div class="float-end">
                                                 <a href="#" class="text-white-50"><i class="mdi mdi-arrow-right h5"></i></a>
                                             </div>
-
-                                            <p class="text-white-50 mb-0 mt-1">Since last month</p>
+                                            <p class="text-white-50 mb-0 mt-1">Ejecutadas en la cuenta</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
+                            
+                            
+                            
+
                             <div class="col-xl-3 col-md-6">
                                 <div class="card mini-stat bg-primary text-white">
                                     <div class="card-body">
@@ -111,9 +117,13 @@
                                             <h5 class="font-size-16 text-uppercase text-white-50">Average Price</h5>
                                             <h4 class="fw-medium font-size-24">15.8 <i
                                                     class="mdi mdi-arrow-up text-success ms-2"></i></h4>
-                                            <div class="mini-stat-label bg-info">
-                                                <p class="mb-0"> 00%</p>
-                                            </div>
+                                             <!--<div class="mini-stat-label bg-success">
+                                               Se comenta esta linea debido que podria llegar a utilizar en un futuro, esto son unas etiquetas en las State Cards que se puede agregar como %
+                                                
+                                              <p class="mb-0">+ 12%</p> 
+                                              
+                                              
+                                            </div> --> 
                                         </div>
                                         <div class="pt-2">
                                             <div class="float-end">
@@ -135,9 +145,13 @@
                                             <h5 class="font-size-16 text-uppercase text-white-50">Product Sold</h5>
                                             <h4 class="fw-medium font-size-24">2436 <i
                                                     class="mdi mdi-arrow-up text-success ms-2"></i></h4>
-                                            <div class="mini-stat-label bg-warning">
-                                                <p class="mb-0">+ 84%</p>
-                                            </div>
+                                             <!--<div class="mini-stat-label bg-success">
+                                               Se comenta esta linea debido que podria llegar a utilizar en un futuro, esto son unas etiquetas en las State Cards que se puede agregar como %
+                                                
+                                              <p class="mb-0">+ 12%</p> 
+                                              
+                                              
+                                            </div> --> 
                                         </div>
                                         <div class="pt-2">
                                             <div class="float-end">
@@ -156,40 +170,16 @@
                             <div class="col-xl-9">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title mb-4">Monthly Earning</h4>
+                                        <h4 class="card-title mb-4 text-center">Account performance history</h4>
                                         <div class="row">
-                                            <div class="col-lg-7">
+                                            <div class="col-lg-12 canvas-container">
                                                 <div>
-                                                    <canvas id="chartPerformance" width="400" height="200"></canvas>
+                                                    <canvas id="chartPerformance"></canvas>
                                                 </div>
                                             </div>
                                             
-                                            <div class="col-lg-5">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="text-center">
-                                                            <p class="text-muted mb-4">This month</p>
-                                                            <h3>$34,252</h3>
-                                                            <p class="text-muted mb-5">It will be as simple as in fact it
-                                                                will be occidental.</p>
-                                                            <span class="peity-donut"
-                                                                data-peity='{ "fill": ["#02a499", "#f2f2f2"], "innerRadius": 28, "radius": 32 }'
-                                                                data-width="72" data-height="72">4/5</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="text-center">
-                                                            <p class="text-muted mb-4">Last month</p>
-                                                            <h3>$36,253</h3>
-                                                            <p class="text-muted mb-5">It will be as simple as in fact it
-                                                                will be occidental.</p>
-                                                            <span class="peity-donut"
-                                                                data-peity='{ "fill": ["#02a499", "#f2f2f2"], "innerRadius": 28, "radius": 32 }'
-                                                                data-width="72" data-height="72">3/5</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
+                                            
                                         </div>
                                         <!-- end row -->
                                     </div>

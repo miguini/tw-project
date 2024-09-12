@@ -4,8 +4,8 @@
 // custom-variables
 //
 // Vertical Sidebar - Dark
-$sidebar-dark-bg: #333547; //2c313a
-$sidebar-dark-menu-item-color: #8699ad;
+$sidebar-dark-bg: #303134; //2c313a
+$sidebar-dark-menu-item-color: #F7F7F8;
 $sidebar-dark-menu-sub-item-color: #8699ad;
 $sidebar-dark-menu-item-icon-color: #8699ad;
 $sidebar-dark-menu-item-hover-color: #b4c9de;
@@ -22,12 +22,12 @@ $sidebar-menu-item-color: #66676d;
 $sidebar-menu-sub-item-color: #464b50;
 $sidebar-menu-item-icon-color: #464b50;
 $sidebar-menu-item-hover-color: #0b0d0e;
-$sidebar-menu-item-active-color: #626ed4;
+$sidebar-menu-item-active-color: #303134;
 $sidebar-menu-item-active-bg: #f5f5f5;
 
 // Vertical Colored Sidebar - Colored
 
-$sidebar-colored-bg: #626ed4; //2c313a
+$sidebar-colored-bg: #303134; //2c313a
 $sidebar-colored-menu-item-color: rgba($white, 0.7);
 $sidebar-colored-menu-sub-item-color: rgba($white, 0.7);
 $sidebar-colored-menu-item-icon-color: rgba($white, 0.7);
@@ -37,8 +37,8 @@ $sidebar-colored-menu-item-active-bg: #6b77dd;
 
 // Topbar - Deafult Light
 $header-height: 70px;
-$header-bg: #ececf1;
-$header-item-color: #525f80;
+$header-bg: #303134;
+$header-item-color: #F7F7F8;
 
 // Topbar - Dark
 $header-dark-bg: #333547;
@@ -53,11 +53,11 @@ $footer-bg: #f2f2f5;
 $footer-color: #74788d;
 
 // Horizontal nav
-$topnav-bg:   #333547;
+$topnav-bg:  #303134;
 
 $menu-item-color: #a1a2ab;
 $menu-subitem-color: #66676d;
-$menu-item-active-color: #626ed4;
+$menu-item-active-color: #303134;
 
 // Right Sidebar
 $rightbar-width:  280px;
@@ -122,7 +122,7 @@ $grays: (
 // fusv-enable
 
 // scss-docs-start color-variables
-$blue:       #626ed4;
+$blue:       #303134;
 $purple:     #6f42c1;
 $pink:       #e83e8c;
 $red:        #ec4561;

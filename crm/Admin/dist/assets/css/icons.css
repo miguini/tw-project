@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*
-Template Name: Veltrix - Admin & Dashboard Template
+Template Name: MS- Admin & Dashboard Template
 Author: Themesbrand
 Version: 4.2.0
 Website: https://themesbrand.com/
@@ -36517,5 +36517,7 @@ readers do not read off random characters that represent icons */
 
 .typcn-zoom:before {
   content: "\e14f";
+  /* '' */
+}4f";
   /* '' */
 }

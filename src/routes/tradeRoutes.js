@@ -1,5 +1,17 @@
 const express = require('express');
-const { createTrade, getTrades, updateTrade, deleteTrade, getClosedTrades, getOpenTrades, getTradeHistory, getAccountPerformance , getTradesByMonth } = require('../controllers/tradeController');
+const {
+    createTrade,
+    getTrades,
+    updateTrade,
+    deleteTrade,
+    getClosedTrades,
+    getOpenTrades,
+    getTradeHistory,
+    getAccountPerformance,
+    getTradesByMonth
+} = require('../controllers/tradeController');
+
+const { obtenerOperaciones } = require('../controllers/userController');  // Importar desde userController
 const authenticateToken = require('../middlewares/auth');
 const router = express.Router();
 
@@ -24,12 +36,13 @@ router.get('/trades/open', authenticateToken, getOpenTrades);
 // Ruta para obtener el historial completo de operaciones del usuario
 router.get('/trades/history', authenticateToken, getTradeHistory);
 
-//Ruta para obtener rendimiento de usuario
+// Ruta para obtener rendimiento de usuario
 router.get('/performance', authenticateToken, getAccountPerformance);
 
-//filtre las operaciones según su fecha de creación o actualización
+// Filtrar las operaciones según su fecha de creación o actualización
 router.get('/trades/month', authenticateToken, getTradesByMonth);
 
-
+// Ruta para obtener el número de operaciones
+router.get('/operations', authenticateToken, obtenerOperaciones);  // Utiliza la función de userController
 
 module.exports = router;

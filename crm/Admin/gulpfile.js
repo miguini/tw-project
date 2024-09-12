@@ -15,6 +15,7 @@ const autoprefixer = require("gulp-autoprefixer");
 const sourcemaps = require("gulp-sourcemaps");    
 const cleanCSS = require('gulp-clean-css');
 const rtlcss = require('gulp-rtlcss');
+const rimraf = require('rimraf'); // Import rimraf for cleaning directories
 
 const paths = {
   base:   {
@@ -79,20 +80,24 @@ const paths = {
   }
 };
 
+// Tarea para iniciar BrowserSync y servir los archivos
 gulp.task('browsersync', function(callback) {
   browsersync.init({
     server: {
       baseDir: [paths.dist.base.dir, paths.src.base.dir, paths.base.base.dir]
     },
+    port: 3000
   });
   callback();
 });
 
+// Tarea para recargar el navegador cuando los archivos cambien
 gulp.task('browsersyncReload', function(callback) {
   browsersync.reload();
   callback();
 });
 
+// Tarea de watch para observar los cambios y recargar el navegador
 gulp.task('watch', function() {
   gulp.watch(paths.src.scss.files, gulp.series('scss', 'browsersyncReload'));
   gulp.watch([paths.src.js.dir], gulp.series('js','browsersyncReload'));
@@ -127,7 +132,6 @@ gulp.task('scss', function () {
     .pipe(cleanCSS())
     .pipe(
       rename({
-        // 
         suffix: ".min"
       })
     )
@@ -147,7 +151,6 @@ gulp.task('scss', function () {
     // .pipe(cleanCSS())
     .pipe(
       rename({
-        // 
         suffix: "-rtl.min"
       })
     )
@@ -176,9 +179,8 @@ gulp.task('clean:packageLock', function(callback) {
   callback();
 });
 
-gulp.task('clean:dist', function(callback) {
-  del.sync(paths.dist.base.dir);
-  callback();
+gulp.task('clean:dist', function() {
+  return del(paths.dist.base.dir, { force: true });
 });
 
 gulp.task('copy:all', function() {
@@ -223,8 +225,6 @@ gulp.task('html', function() {
     .pipe(gulp.dest(paths.dist.base.dir));
 });
 
-// gulp.task('build', gulp.series(gulp.parallel('clean:tmp', 'clean:packageLock', 'clean:dist', 'copy:all', 'copy:libs'), 'scss', 'html'));
 gulp.task('build', gulp.series(gulp.parallel('clean:packageLock', 'clean:dist', 'copy:all', 'copy:libs'), 'scss', 'html'));
 
-// gulp.task('default', gulp.series(gulp.parallel('fileinclude', 'scss'), gulp.parallel('browsersync', 'watch')));
-gulp.task('default', gulp.series(gulp.parallel('clean:packageLock', 'clean:dist', 'copy:all', 'copy:libs', 'fileinclude', 'scss', 'js', 'jsPages', 'html'), gulp.parallel('browsersync', 'watch')));
+gulp.task('default', gulp.series('clean:packageLock', 'clean:dist', 'copy:all', 'copy:libs', 'fileinclude', 'scss', 'js', 'jsPages', 'html', gulp.parallel('browsersync', 'watch')));

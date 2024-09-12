@@ -245,4 +245,17 @@ const getTransactionHistory = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfile, updateUserProfile, getUserBalanceDetailed, deposit, withdraw, getTransactionHistory, downloadTransactionReport };
+//Obtener cantidad de operaciones
+const obtenerOperaciones = async (req, res) => {
+    try {
+        const userId = req.user.id;  // Usuario autenticado
+        const operaciones = await Trade.count({ where: { userId } });  // Cuenta las operaciones del usuario
+        
+        res.status(200).json({ operations: operaciones });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener las operaciones' });
+    }
+};
+
+
+module.exports = { getUserProfile, updateUserProfile, getUserBalanceDetailed, deposit, withdraw, getTransactionHistory, downloadTransactionReport , obtenerOperaciones };

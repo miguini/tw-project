@@ -1,5 +1,5 @@
 /*
-Template Name: Veltrix - Admin & Dashboard Template
+Template Name: MS- Admin & Dashboard Template
 Author: Themesbrand
 Website: https://themesbrand.com/
 Contact: themesbrand@gmail.com
@@ -19,8 +19,8 @@ $(document).ready(function () {
             toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
             style_formats: [
                 {title: 'Bold text', inline: 'b'},
-                {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
-                {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+                {title: 'Red text', inline: 'span', styles: {color: '#303134'}},
+                {title: 'Red header', block: 'h1', styles: {color: '#303134'}},
                 {title: 'Example 1', inline: 'span', classes: 'example1'},
                 {title: 'Example 2', inline: 'span', classes: 'example2'},
                 {title: 'Table styles'},

@@ -1,5 +1,5 @@
 /*
-Template Name: Veltrix - Admin & Dashboard Template
+Template Name: MS- Admin & Dashboard Template
 Author: Themesbrand
 Website: https://themesbrand.com/
 Contact: themesbrand@gmail.com
@@ -21,7 +21,7 @@ File: Vector Maps init Js File
 			hoverColor : false,
 			regionStyle : {
 				initial : {
-					fill : '#626ed4'
+					fill : '#303134'
 				}
 			},
 			 markerStyle: {
@@ -112,7 +112,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#626ed4'
+					fill : '#303134'
 				}
 			}
     });
@@ -123,7 +123,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#626ed4'
+					fill : '#303134'
 				}
 			}
     });
@@ -133,7 +133,7 @@ File: Vector Maps init Js File
 			backgroundColor : 'transparent',
 			regionStyle : {
 				initial : {
-					fill : '#626ed4'
+					fill : '#303134'
 				}
 			}
 		});
