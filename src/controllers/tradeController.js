@@ -1,5 +1,7 @@
 const Trade = require('../models/tradeModel');
 const User = require('../models/userModel');
+const { Op } = require('sequelize');
+
 
 // Crear una nueva operación
 const createTrade = async (req, res) => {
@@ -127,6 +129,40 @@ const getOpenTrades = async (req, res) => {
         res.status(500).json({ message: 'Error en el servidor' });
     }
 };
+const getAccountPerformance = async (req, res) => {
+    try {
+        // Obtener todas las operaciones cerradas
+        const closedTrades = await Trade.findAll({ where: { userId: req.user.id, status: 'closed' } });
+
+        const rendimientoPorMes = {};
+
+        // Recorrer todas las operaciones cerradas
+        closedTrades.forEach(trade => {
+            const tradeDate = new Date(trade.updatedAt);
+            const month = tradeDate.getMonth() + 1; // obtener el mes (0-indexado)
+            const year = tradeDate.getFullYear(); // obtener el año
+            const monthYear = `${month}/${year}`; // Mes y año en formato numérico
+
+            const profitOrLoss = calculateProfitOrLoss(trade);
+
+            if (!rendimientoPorMes[monthYear]) {
+                rendimientoPorMes[monthYear] = 0;
+            }
+            rendimientoPorMes[monthYear] += profitOrLoss;
+        });
+
+        const performanceData = {
+            meses: Object.keys(rendimientoPorMes),
+            rendimiento: Object.values(rendimientoPorMes)
+        };
+
+        res.status(200).json(performanceData);
+    } catch (error) {
+        console.error('Error al obtener el rendimiento:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
+
 
 // Obtener el historial completo de todas las operaciones del usuario
 const getTradeHistory = async (req, res) => {
@@ -158,7 +194,33 @@ const getTradeHistory = async (req, res) => {
         console.error('Error al obtener el historial de operaciones:', error);
         res.status(500).json({ message: 'Error en el servidor' });
     }
+
+    
+};
+
+const getTradesByMonth = async (req, res) => {
+    const { month, year } = req.query; // Obtener mes y año de la consulta
+
+    try {
+        const trades = await Trade.findAll({
+            where: {
+                userId: req.user.id,
+                status: 'closed',
+                updatedAt: {
+                    [Op.between]: [
+                        new Date(year, month - 1, 1),
+                        new Date(year, month, 0)
+                    ]
+                }
+            }
+        });
+
+        res.status(200).json(trades);
+    } catch (error) {
+        console.error('Error al obtener las operaciones:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
 };
 
 
-module.exports = { createTrade, getTrades, getOpenTrades, getClosedTrades, getTradeHistory, updateTrade, deleteTrade };
+module.exports = { createTrade, getTrades, updateTrade, deleteTrade, getClosedTrades, getOpenTrades, getTradeHistory, getAccountPerformance,getTradesByMonth };

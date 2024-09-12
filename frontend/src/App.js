@@ -21,7 +21,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Header solo en rutas privadas */}
+        {/* Cabecera visible en todas las páginas */}
+        <header className="App-header">
+          <h1 className="app-title">MarketSwiss</h1>
+        </header>
+
+        {/* Rutas públicas y privadas */}
         <Routes>
           {/* Rutas públicas */}
           <Route path="/login" element={<Login />} />

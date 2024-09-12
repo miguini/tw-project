@@ -1,0 +1,73 @@
+// Fuente local Sarabun (Regular)
+@font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/sarabun-regular.woff2') format('woff2'),
+         url('../fonts/sarabun-regular.woff') format('woff'),
+         url('../fonts/Sarabun-Regular.ttf') format('truetype');
+}
+
+// Fuente local Sarabun (Bold)
+@font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/Sarabun-Bold.ttf') format('truetype');
+}
+
+// Fuente local Sarabun (SemiBold)
+@font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/Sarabun-SemiBold.ttf') format('truetype');
+}
+
+// Fuente local Sarabun (Italic)
+@font-face {
+    font-family: 'Sarabun';
+    font-style: italic;
+    font-weight: 400;
+    src: url('../fonts/Sarabun-Italic.ttf') format('truetype');
+}
+
+// Fuente local Sarabun (Bold Italic)
+@font-face {
+    font-family: 'Sarabun';
+    font-style: italic;
+    font-weight: 700;
+    src: url('../fonts/Sarabun-BoldItalic.ttf') format('truetype');
+}
+
+// Fuente local Roboto (Regular)
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+// Fuente local Roboto (Medium)
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+}
+
+// Fuente local Roboto (Bold)
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+// Fuente local Roboto (Italic)
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 400;
+    src: url('../fonts/Roboto-Italic.ttf') format('truetype');
+}

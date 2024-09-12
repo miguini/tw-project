@@ -1,0 +1,1 @@
+var chart=new Chartist.Pie("#ct-donut",{series:[54,28,17],labels:[1,2,3]},{donut:!0,showLabel:!1});$(".peity-donut").each(function(){$(this).peity("donut",$(this).data())}),$(".peity-line").each(function(){$(this).peity("line",$(this).data())});

@@ -1,5 +1,5 @@
 const express = require('express');
-const { createTrade, getTrades, updateTrade, deleteTrade, getClosedTrades, getOpenTrades, getTradeHistory } = require('../controllers/tradeController');
+const { createTrade, getTrades, updateTrade, deleteTrade, getClosedTrades, getOpenTrades, getTradeHistory, getAccountPerformance , getTradesByMonth } = require('../controllers/tradeController');
 const authenticateToken = require('../middlewares/auth');
 const router = express.Router();
 
@@ -23,5 +23,13 @@ router.get('/trades/open', authenticateToken, getOpenTrades);
 
 // Ruta para obtener el historial completo de operaciones del usuario
 router.get('/trades/history', authenticateToken, getTradeHistory);
+
+//Ruta para obtener rendimiento de usuario
+router.get('/performance', authenticateToken, getAccountPerformance);
+
+//filtre las operaciones según su fecha de creación o actualización
+router.get('/trades/month', authenticateToken, getTradesByMonth);
+
+
 
 module.exports = router;

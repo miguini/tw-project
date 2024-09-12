@@ -18,6 +18,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Configura el servidor para servir archivos estáticos con el tipo MIME adecuado
+app.use(express.static('public', {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.js')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        }
+    }
+}));
+
 if (process.env.DATABASE_URL) {
     connectDB().then(() => {
         sequelize.sync({ alter: true }).then(() => {
@@ -44,6 +53,15 @@ app.use('/api', tradeRoutes);
 // Rutas protegidas
 app.get('/api/private', authenticateToken, (req, res) => {
     res.send(`Accediste a una ruta privada, bienvenido usuario ${req.user.id}`);
+});
+
+// Ruta para obtener el rendimiento de la cuenta del usuario
+app.get('/api/performance', authenticateToken, (req, res) => {
+    const performanceData = {
+        meses: ['Enero', 'Febrero', 'Marzo'],  // Asegúrate de modificar esta parte según tu lógica de negocio
+        rendimiento: [1000, -500, 1500]  // Datos de ejemplo de ganancias/pérdidas
+    };
+    res.status(200).json(performanceData);
 });
 
 // Ruta de bienvenida
