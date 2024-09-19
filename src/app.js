@@ -2,19 +2,23 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
+// Inicializar la aplicación de Express
+const app = express();
+
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
 
-console.log('DATABASE_URL:', process.env.DATABASE_URL);  // <-- Verifica si DATABASE_URL está cargado
-console.log('JWT_SECRET:', process.env.JWT_SECRET);  // <-- Verifica si JWT_SECRET está cargado
+console.log('DATABASE_URL:', process.env.DATABASE_URL);  // Verifica si DATABASE_URL está cargado
+console.log('JWT_SECRET:', process.env.JWT_SECRET);  // Verifica si JWT_SECRET está cargado
 
 const { connectDB, sequelize } = require('./models');
 const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');  // <-- Ruta para el perfil del usuario y transacciones
-const tradeRoutes = require('./routes/tradeRoutes');  // <-- Ruta para las operaciones
+const userRoutes = require('./routes/userRoutes');  // Ruta para el perfil del usuario y transacciones
+const tradeRoutes = require('./routes/tradeRoutes');  // Ruta para las operaciones
+const transactionRoutes = require('./routes/transactionRoutes'); // Importa las rutas de transacciones
 const authenticateToken = require('./middlewares/auth');
 
-const app = express();
+// Middleware
 app.use(express.json());
 app.use(cors());
 
@@ -27,6 +31,7 @@ app.use(express.static('public', {
     }
 }));
 
+// Conectar a la base de datos
 if (process.env.DATABASE_URL) {
     connectDB().then(() => {
         sequelize.sync({ alter: true }).then(() => {
@@ -44,8 +49,11 @@ if (process.env.DATABASE_URL) {
 // Conectar las rutas de autenticación
 app.use('/api/auth', authRoutes);
 
-// Conectar las rutas del perfil de usuario y transacciones
+// Conectar las rutas del perfil de usuario
 app.use('/api/user', userRoutes);
+
+// Conectar las rutas de transacciones
+app.use('/api/user', transactionRoutes);  // Ajusta esta línea si quieres una ruta específica
 
 // Conectar las rutas de operaciones de trading
 app.use('/api', tradeRoutes);
