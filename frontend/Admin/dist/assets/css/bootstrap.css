@@ -15318,4 +15318,42 @@ button, a {
 }
 .custom-progess .progress-icon .avatar-title {
   background: #fff;
+}ace: nowrap;
+}
+
+.table-bordered {
+  border: 1px solid #e9ecef;
+}
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #e9ecef;
+}
+
+.pagination-rounded .page-link {
+  border-radius: 30px !important;
+  margin: 0 3px;
+  border: none;
+}
+
+.progress-sm {
+  height: 5px;
+}
+
+.progress-md {
+  height: 8px;
+}
+
+.progress-lg {
+  height: 12px;
+}
+
+.custom-progess {
+  position: relative;
+}
+.custom-progess .progress-icon {
+  position: absolute;
+  top: -12px;
+}
+.custom-progess .progress-icon .avatar-title {
+  background: #fff;
 }

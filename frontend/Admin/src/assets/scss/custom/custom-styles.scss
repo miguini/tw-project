@@ -1,34 +1,52 @@
-/* custom-styles.scss */
-
-.btn-modern {
-    font-size: 18px;
+/* Estilos del selector de temporalidad y lotaje */
+.btn-timeframe, .btn-lot-control {
+    font-size: 14px;
     font-weight: bold;
-    padding: 15px 30px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    color: #fff; /* Texto blanco */
+    background-color: #303134; /* Color de fondo gris oscuro */
+    border: none; /* Sin borde */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.btn-timeframe:hover, .btn-lot-control:hover {
+    background-color: #484a4d; /* Fondo más oscuro al hacer hover */
+}
+
+.btn-timeframe.active {
+    background-color: #28a745; /* Verde cuando está activo */
+    color: white;
+}
+
+.btn-timeframe:focus, .btn-lot-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(48, 49, 52, 0.25); /* Sombra para indicar que está enfocado */
+}
+
+/* Botones modernos */
+.btn-modern {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
     border-radius: 8px;
     border: none;
     transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra moderna */
 }
 
 #buy-button {
-    background-color: transparent;
-    color: #26A69A;
+    background-color: white;
+    color: black;
 }
 
 #sell-button {
-    background-color: transparent;
-    color: #EF5350;
+    background-color: white;
+    color: black;
 }
 
-.lot-size-selector input {
-    width: 100px;
-    font-size: 18px;
-    padding: 8px;
-    text-align: center;
-}
-
-.lot-control {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px 15px;
-    margin: 0 5px;
+/* Contenedor con sombras para el gráfico y botones */
+#chart-container, #lot-size-buttons-container, #chart-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra moderna */
 }
